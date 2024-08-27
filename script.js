@@ -41,3 +41,38 @@ add('pizza', 2);
 
 //imports are not a copy of exports they are like a live connection-> they point to the same place in the memory 
 
+
+
+// TOP - LEVEL  - AWAIT  ES2022 (Modules)
+
+//with the update we can cusethe await keyword outside of async functions
+//ONLY works in modules(html needs to have module type)
+
+
+//this blocks the entire execution of the module.
+
+// const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+// const data = await res.json();
+// console.log(data);
+
+const getLastPost = async function () {
+    const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+    const data = await res.json();
+
+    console.log(data)
+    
+    return {title: data.at(-1).title, text:data.at(-1).body}
+}   
+const lastPost = getLastPost();
+console.log(lastPost);
+//calling an async function will always return a promise and not data that we have requested
+
+//not very clean
+//lastPost.then(last => console.log(last))
+
+const lastPost2 = await getLastPost(); // using top level await to get quite useful
+console.log(lastPost2);
+
+//top level await- if one module imports a module which has a top level await, then the imporing module, 
+// will wait for the imported to finish the blocking code. 
+

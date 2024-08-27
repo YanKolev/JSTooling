@@ -2,6 +2,13 @@
 // this code is executed before any code in the impot module.
 console.log('Exporting module');
 
+//Blocking code
+//console.log('start fetching users');
+//const res = await fetch('https://jsonplaceholder.typicode.com/users')
+//console.log('finish fetching users')
+//blocking execution in this module, and the module that is imprting it. 
+// use with great care 
+
 const shippingCost = 10;
 export const cart = [];
 //inside a module the module itself its top level scope// IS only used in here cant see them in script.js
@@ -26,3 +33,4 @@ export default function (product, quantity){
     cart.push({product, quantity});
     console.log(`${quantity} ${product} addded to cart`)
 }
+
