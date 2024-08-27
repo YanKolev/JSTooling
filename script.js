@@ -17,9 +17,9 @@ console.log(price, tq);
 
 */
 
-console.log('Importing module');
+//console.log('Importing module');
 
-import shoppingCart from "./shoppingCart.js";
+//import shoppingCart from "./shoppingCart.js";
 /*
 // we can also import all the export of a module at the same time 
 // below it will create an object containing everything that is exported, and needs to start with capital letter(naming sorta like a class)
@@ -33,8 +33,8 @@ console.log(ShoppingCart.totalPrice);
 //when we import the default value, we can give it any name that we want
 //import add-> imports the default export NO matter how its called.
 
-import add from "./shoppingCart.js"
-add('pizza', 2);
+//import add from "./shoppingCart.js"
+//add('pizza', 2);
 
 
 //!!NB NEver mix default and named exports in the same module.
@@ -56,6 +56,8 @@ add('pizza', 2);
 // const data = await res.json();
 // console.log(data);
 
+/*
+
 const getLastPost = async function () {
     const res = await fetch('https://jsonplaceholder.typicode.com/posts')
     const data = await res.json();
@@ -66,13 +68,15 @@ const getLastPost = async function () {
 }   
 const lastPost = getLastPost();
 console.log(lastPost);
+*/
+
 //calling an async function will always return a promise and not data that we have requested
 
 //not very clean
 //lastPost.then(last => console.log(last))
 
-const lastPost2 = await getLastPost(); // using top level await to get quite useful
-console.log(lastPost2);
+//const lastPost2 = await getLastPost(); // using top level await to get quite useful
+//console.log(lastPost2);
 
 //top level await- if one module imports a module which has a top level await, then the imporing module, 
 // will wait for the imported to finish the blocking code. 
@@ -86,6 +90,8 @@ console.log(lastPost2);
 //best way to achieve is function. 
 
 //IIFE- immediately invoked function expression- can call it once, and we do not have to call it separatly
+/*
+
 const ShoppingCart2 = (function(){
     const cart = [];
     const shippingCost = 10;
@@ -113,6 +119,9 @@ const ShoppingCart2 = (function(){
 
 
 })()
+
+
+
 //only purpose of the function is to create a new scope and return the data once
 //all of the data is private, because its inside of the scope of the function, now we need to return it to have a public api- retun the stuff u want to make public
 
@@ -121,6 +130,7 @@ ShoppingCart2.addToCart('pizza', 2)
 console.log(ShoppingCart2);
 console.log(ShoppingCart2.shippingCost); // it will be undefined as the data is private and only visible to the module
 
+*/
 /* 
 Since the IFFE is executed only once, how can we be able to manipulate the cart after its already executed? 
 Closures- they allow a function to have access to the variables that were present at its birthplace,
@@ -145,3 +155,21 @@ export.addToCart =function (product, quantity){
 const {addToCart} = require = (''./shoppingCart.js')
 
 */
+
+import cloneDeep from '/.node_modules/lodash-es/cloneDeep.js'
+
+const state = {
+    cart: [
+        {product: 'bread', quantity: 5},
+        {product: 'pizza', quantity: 5}
+    ],
+    user: {loggedIn: true}
+};
+
+const stateClone = Object.assign({}, state);
+const stateDeepClone = cloneDeep(state);
+state.user.loggedIn = false;
+
+console.log(stateClone);
+
+console.log(stateDeepClone);
