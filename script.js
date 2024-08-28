@@ -15,7 +15,7 @@ console.log(price, tq);
 
 
 
-*/
+
 
 //console.log('Importing module');
 
@@ -27,14 +27,12 @@ import * as ShoppingCart from "./shoppingCart.js"
 ShoppingCart.addToCart('bread', 5);
 console.log(ShoppingCart.totalPrice);
 //module exports something like a API 
-*/
+
 
 //default exports- when we only want to export 1 thing per module
 //when we import the default value, we can give it any name that we want
 //import add-> imports the default export NO matter how its called.
 
-//import add from "./shoppingCart.js"
-//add('pizza', 2);
 
 
 //!!NB NEver mix default and named exports in the same module.
@@ -156,7 +154,7 @@ const {addToCart} = require = (''./shoppingCart.js')
 
 */
 
-import cloneDeep from '/.node_modules/lodash-es/cloneDeep.js'
+import cloneDeep from 'lodash-es/cloneDeep';
 
 const state = {
     cart: [
@@ -173,3 +171,11 @@ state.user.loggedIn = false;
 console.log(stateClone);
 
 console.log(stateDeepClone);
+
+import add,  { cart } from "./shoppingCart.js"
+add('pizza', 2);
+add('bread', 5);
+add('apples', 4);
+
+console.log(cart)
+
