@@ -29,3 +29,21 @@ How modules are imported:
 -After the parsing process the modules are downloaded from the server, that is asynchronous way. Only the parsing is synchronous. After that linking starts. Exported values are not coppied to imports, instead the import is just a refrence to the exported value( like a pointer). 
 When the value changes in the exporting module, then same value also changes in the importing module. Its UNIQUE TO ES6. After that the code of 
 the imported modules is executed and the process is fineshed. 
+
+//Modern and clean code
+Important- Readable code: others can udners, you can can understand it n 1 year, avoid too clever and overcomplicated solutions, variable naming- what they contain, functions naming- what they do. 
+
+General principles- DRY, do not polute global namespace, encapsulate instead, dont use var, use strong type checks(=== and !==)
+
+Main rules for functions: functions should do only 1 thing, do not use more than 3 parameters in a function, use default parameters whenever posible, return same data type as you received, use arrow functions when they can make the code more readable.
+
+
+OOP: 
+Use ES6 classes, encapsulate data and dont mutate it from outside the class
+implement method chaining, do not use arrow functions as methods in regular objects. 
+
+Avoid nested code: 
+use early return(guard clauses), use ternary or logical operators instead of if, use multiple if insread of if/else-if, avoid for loops, use array methods instead, avoid callback-based asynchronous APIs
+
+Asynchronous code:
+Consume promises with async/await for best readability, whenever possible, run promises in parallel(Promise.all), handle errors and promise rejections
