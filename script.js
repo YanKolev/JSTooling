@@ -179,3 +179,33 @@ add('apples', 4);
 
 console.log(cart)
 
+
+// Hot module reloading- whatever we change one of the modules, 
+//it will trigger rebuild- but the bundle will be injected in WITHOUT TRIGGERING WHOLE PAGE RELOAD
+
+if(module.hot){
+    module.hot.accept()
+}
+
+class Person {
+    greeting = 'Hey'
+    constructor(name){
+        this.name = name;
+        console.log(`${this.greeting}, ${this.name}`)
+    }
+}
+
+const jonas = new Person('Jonas');
+
+//nullish coalescing operator- experimental for babel 
+console.log('Jonas'?? null)
+
+console.log(cart.find(el => el.quantity >= 2));
+Promise.resolve('Test'). then(x => console.log(x))
+
+//pollyfilling need to import another library 
+
+import 'core-js/stable';
+
+//regenerator -runtime- pollyfilling async functions
+import 'regenerator-runtime/runtime.js';
