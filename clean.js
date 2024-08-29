@@ -1,4 +1,6 @@
-const budget = [
+'strict mode';
+
+const budget = Object.freeze([
     { value: 250, description: 'Sold old TV 📺', user: 'jonas' },
     { value: -45, description: 'Groceries 🥑', user: 'jonas' },
     { value: 3500, description: 'Monthly salary 👩‍💻', user: 'jonas' },
@@ -7,18 +9,24 @@ const budget = [
     { value: -20, description: 'Candy 🍭', user: 'matilda' },
     { value: -125, description: 'Toys 🚂', user: 'matilda' },
     { value: -1800, description: 'New Laptop 💻', user: 'jonas' },
-  ];
+  ]);
   
-  const spendingLimits = {
+  const spendingLimits = Object.freeze({ // spending limits now is immutable with the 
     jonas: 1500,
     matilda: 100,
-  };
+  });
 
-  const getLimit = user => spendingLimits?.[user] ?? 0 
+  //attempt to add a value
+  spendingLimits.jay = 200
+  console.log(spendingLimits); // it will not work as its freezed
+
+  const getLimit = (limits, user) => limits?.[user] ?? 0 
   
-  const addExpense = function (value, description, user = 'jonas') {
+
+  //Transformed into a pure function :D
+  const addExpense = function (state, limits, value, description, user = 'jonas') {
     
-    user = user.toLowerCase();
+    const cleanUser = user.toLowerCase();
 
     
   
@@ -26,27 +34,55 @@ const budget = [
 
     //const limit = spendingLimits?.[user] ?? 0 ; - optional chaining with nullish coalescing operator
   
-    if (value <= getLimit(user)) {
-      budget.push({ value: -value, description, user });
-    }
-  };
-  addExpense (10, 'Pizza 🍕');
-  addExpense (100, 'Going to movies 🍿', 'Matilda');
-  addExpense (200, 'Stuff', 'Jay');
- 
-  
-  const checkExpenses = function () {
-    for (const entry of budget) 
-      if (entry.value < -getLimit(entry.user)) 
-        entry.flag = 'limit';
-      
+    return value <= getLimit(limits,cleanUser) ? 
+      [...state, { value: -value, description, user: cleanUser }] : state
+      //returns an empty copy of state and adds new element +
+      // + we add the object that we used before.
+      //budget.push({ value: -value, description, user:cleanUser })
+
     
   };
-  checkExpenses();
+  const newBudget1 = addExpense (budget, spendingLimits, 10, 'Pizza 🍕');
+  const newBudget2 = addExpense (newBudget1, spendingLimits, 100, 'Going to movies 🍿', 'Matilda');
+  const newBudget3 = addExpense (newBudget2, spendingLimits, 200, 'Stuff', 'Jay');
+ 
+  /*
+  const checkExpenses2 = function (state,limits) {
+    return state.map(entry => {
+      return entry.value < -getLimit(limits, entry.user) ? {...entry, flag: 'limit'} : entry;
+
+    })
+    /*
+    for (const entry of budget) 
+      if (entry.value < -getLimit(limits, entry.user)) 
+        entry.flag = 'limit';
+      */
+    
   
  
+
+//transformed the function above into arrow functions 
+  const checkExpenses =  (state,limits) =>
+     state.map(entry => 
+       entry.value < -getLimit(limits, entry.user) ? {...entry, flag: 'limit'} : entry);
+
+
+  const finalBudget = checkExpenses(newBudget3,spendingLimits);
+  console.log(finalBudget);
+ 
   
-  const logbigExpenses = function (bigLimit) {
+  const logbigExpenses = function (state, bigLimit) {
+    const bigExpenses = state
+    .filter(entry =>entry.value <= -bigLimit)
+    .map(entry => entry.description
+      .slice(-2)).join('/');
+    
+    
+    
+    
+    
+    
+    /*
     let output = '';
     for (const entry of budget) 
 
@@ -55,7 +91,12 @@ const budget = [
     
     output = output.slice(0, -2); // Remove last '/ '
     console.log(output);
+    */
+
+
+
+
   };
 
   console.log(budget);
-  logbigExpenses(1000);
+  logbigExpenses(finalBudget,1000);
